@@ -120,6 +120,28 @@ section{padding-block:clamp(3.5rem,8vw,7rem)}
   font-family:var(--mono);font-size:.66rem;letter-spacing:.09em;
   border:1px solid var(--rule);padding:.28rem .6rem;border-radius:2px;color:var(--pneu)
 }
+.item-gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(115px,1fr));gap:.55rem;margin-top:1.4rem}
+.item-gallery a{border:1px solid var(--rule);border-radius:2px;overflow:hidden;line-height:0;display:block}
+.item-gallery img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;transition:opacity .25s,transform .5s}
+.item-gallery a:hover img{opacity:.82;transform:scale(1.05)}
+.item-cap{
+  font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--mute);margin:.65rem 0 0;line-height:1.6;
+}
+.item-body{display:flex;gap:clamp(1.25rem,3vw,2.5rem);align-items:flex-start}
+.item-body>div:first-child{flex:1;min-width:0}
+.badge{flex:none;width:118px;text-align:center}
+.badge img{width:118px;height:118px;border-radius:50%;display:block;border:1px solid var(--rule)}
+.badge figcaption{
+  font-family:var(--mono);font-size:.58rem;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--mute);margin-top:.6rem;line-height:1.5;
+}
+@media(max-width:640px){
+  .item-body{flex-direction:column-reverse;align-items:flex-start;gap:1.25rem}
+  .badge{display:flex;align-items:center;gap:.85rem;width:auto;text-align:left}
+  .badge img{width:76px;height:76px}
+  .badge figcaption{margin-top:0}
+}
 
 /* ---------- publications ---------- */
 .pubs{border-top:1px solid var(--rule)}
@@ -127,13 +149,27 @@ section{padding-block:clamp(3.5rem,8vw,7rem)}
 .pub .yr{font-family:var(--mono);font-size:.8rem;color:var(--pneu);padding-top:.3rem}
 .pub p{margin:0;font-size:clamp(1.05rem,2vw,1.25rem);line-height:1.42;font-weight:400}
 .pub small{display:block;font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-top:.55rem}
+.pub a{text-decoration:none;border-bottom:1px solid rgba(20,100,111,.4);transition:color .2s,border-color .2s}
+.pub a:hover{color:var(--pneu);border-color:var(--pneu)}
+.pub small a{border-bottom-color:var(--signal);color:var(--pneu)}
+.press{
+  display:flex;align-items:center;gap:1rem;margin-top:1.4rem;text-decoration:none;
+  border:1px solid var(--rule);border-radius:2px;padding:.6rem;max-width:430px;transition:border-color .25s;
+}
+.press:hover{border-color:var(--pneu)}
+.press img{width:112px;height:74px;object-fit:cover;border-radius:2px;flex:none;display:block}
+.press b{
+  display:block;font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--pneu);font-weight:500;margin-bottom:.35rem;
+}
+.press span{font-size:.92rem;line-height:1.45}
 @media(max-width:560px){.pub{grid-template-columns:1fr;gap:.4rem}}
 
 /* ---------- awards band ---------- */
 .awards{background:var(--ink);color:var(--paper)}
 .awards .sec-head .mono{color:var(--signal)}
 .awards .sec-head::after{background:var(--rule-dark)}
-.award-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1.25rem,3vw,2.5rem)}
+.award-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(1.25rem,3vw,2.5rem);align-items:start}
 @media(max-width:760px){.award-grid{grid-template-columns:1fr}}
 .award{border:1px solid var(--rule-dark);padding:clamp(1.5rem,3vw,2.25rem);border-radius:3px;background:var(--ink-2);transition:border-color .25s}
 .award:hover{border-color:var(--signal)}
@@ -141,6 +177,35 @@ section{padding-block:clamp(3.5rem,8vw,7rem)}
 .award h3{font-size:1.2rem;margin:1rem 0 .5rem}
 .award p{margin:0;color:rgba(217,224,222,.78);font-weight:300}
 .award .mono{color:var(--pneu-soft);margin-top:1.1rem;display:block}
+.award-media{
+  display:block;margin-top:1.5rem;position:relative;line-height:0;
+  border:1px solid var(--rule-dark);border-radius:2px;overflow:hidden;
+}
+.award-media img{width:100%;height:auto;display:block;transition:opacity .25s}
+.award-media:hover img{opacity:.72}
+.award-media .play{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+}
+.award-media .play i{
+  width:54px;height:54px;border-radius:50%;background:rgba(12,20,22,.72);border:1px solid var(--signal);
+  color:var(--signal);display:flex;align-items:center;justify-content:center;font-style:normal;font-size:1.1rem;
+  padding-left:4px;transition:background .25s,transform .25s;
+}
+.award-media:hover .play i{background:var(--signal);color:var(--ink);transform:scale(1.08)}
+.award-figs{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:1.5rem}
+.award-figs a{border:1px solid var(--rule-dark);border-radius:2px;overflow:hidden;line-height:0;display:block}
+.award-figs img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;transition:opacity .25s,transform .5s}
+.award-figs a:hover img{opacity:.8;transform:scale(1.04)}
+.award-cap{
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--mute);margin:.7rem 0 0;line-height:1.6;
+}
+.award-links{display:flex;gap:1.4rem;flex-wrap:wrap;margin-top:1.2rem}
+.award-links a{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.13em;text-transform:uppercase;
+  text-decoration:none;color:var(--paper);border-bottom:1px solid var(--signal);padding-bottom:.25rem;transition:color .2s;
+}
+.award-links a:hover{color:var(--signal)}
 
 /* ---------- side projects ---------- */
 .projects{display:grid;gap:1.5rem}
@@ -358,6 +423,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
         <li>Co-authored three IEEE papers on design, control, and learning-based assistance.</li>
       </ul>
       <div class="tags"><span>C++</span><span>MATLAB/Simulink</span><span>Soft robotics</span><span>Control systems</span></div>
+      <a class="press" href="https://www.cbsnews.com/texas/video/ut-arlington-research-institute-a-hidden-gem-solving-real-world-problems/" target="_blank" rel="noopener">
+        <img src="cbs-utari.jpg" alt="CBS News Texas filming inside the UTARI lab as the wrist exoskeleton is demonstrated.">
+        <span><b>CBS News Texas</b>Our lab's work featured on air — the wrist exoskeleton demonstrated for the segment.</span>
+      </a>
     </div>
   </div>
 
@@ -371,6 +440,13 @@ footer .wrap{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
         <li>Accelerated YOLO inference on a Jetson Nano with CUDA and distributed computing.</li>
       </ul>
       <div class="tags"><span>ROS2</span><span>NAV2</span><span>CUDA</span><span>Jetson Nano</span></div>
+      <div class="item-gallery">
+        <a href="nav-jackal.jpg" target="_blank" rel="noopener"><img src="nav-jackal.jpg" alt="The Clearpath Jackal driving itself across the competition course."></a>
+        <a href="nav-team.jpg" target="_blank" rel="noopener"><img src="nav-team.jpg" alt="The AutonoBots team with the Jackal after a night run."></a>
+        <a href="nav-onsite.jpg" target="_blank" rel="noopener"><img src="nav-onsite.jpg" alt="Working on the navigation stack on site during the competition."></a>
+        <a href="nav-competition.jpg" target="_blank" rel="noopener"><img src="nav-competition.jpg" alt="All teams gathered at the Not-a-Boring Competition."></a>
+      </div>
+      <p class="item-cap">The Jackal on course, the team after a night run, debugging on site, and the full competition field.</p>
     </div>
   </div>
 
@@ -379,11 +455,19 @@ footer .wrap{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
     <div>
       <h3>Research Lead</h3>
       <div class="org">NASA L'SPACE Program</div>
-      <ul>
-        <li>Led a research team on commercializing RFID technology for space logistics.</li>
-        <li>Produced CAD in Siemens NX for system modeling and prototype planning.</li>
-      </ul>
-      <div class="tags"><span>Siemens NX</span><span>RFID</span><span>Systems research</span></div>
+      <div class="item-body">
+        <div>
+          <ul>
+            <li>Led a research team on commercializing RFID technology for space logistics.</li>
+            <li>Produced CAD in Siemens NX for system modeling and prototype planning.</li>
+          </ul>
+          <div class="tags"><span>Siemens NX</span><span>RFID</span><span>Systems research</span></div>
+        </div>
+        <figure class="badge">
+          <img src="lspace-badge.jpg" alt="NASA L'SPACE Mission Concept Academy badge for Siemens NX CAD.">
+          <figcaption>Mission Concept Academy<br>Siemens NX CAD</figcaption>
+        </figure>
+      </div>
     </div>
   </div>
 
@@ -414,13 +498,13 @@ footer .wrap{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
     </div>
     <div class="pub">
       <div class="yr">2025</div>
-      <p>Experimental Data-Driven Angular Velocity Control for a Soft Pneumatic Wrist Exoskeleton for Motion Assistance in Rehabilitation
-        <small>IEEE · Co-author</small></p>
+      <p><a href="https://ieeexplore.ieee.org/document/11077558" target="_blank" rel="noopener">Experimental Data-Driven Angular Velocity Control for a Soft Pneumatic Wrist Exoskeleton for Motion Assistance in Rehabilitation</a>
+        <small>IEEE Xplore · Co-author</small></p>
     </div>
     <div class="pub">
       <div class="yr">2025</div>
-      <p>Learning-based Approach to Assist Occupational Workers using Soft Pneumatic Wrist Exoskeleton
-        <small>IEEE · Co-author</small></p>
+      <p><a href="https://ieeexplore.ieee.org/document/11077507" target="_blank" rel="noopener">Learning-based Approach to Assist Occupational Workers using Soft Pneumatic Wrist Exoskeleton</a>
+        <small>IEEE Xplore · Co-author</small></p>
     </div>
   </div>
 </section>
@@ -434,14 +518,31 @@ footer .wrap{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
     <div class="award-grid">
       <div class="award rv">
         <div class="prize">$5,000</div>
-        <h3>The Genspiration Prize</h3>
-        <p>Designed and developed the control algorithm for a novel 2-DoF wrist exoskeleton.</p>
+        <h3>NAI GenSpiration Prize</h3>
+        <p>First place in the university division of the 2026 National Academy of Inventors GenSpiration Prize Competition in Los Angeles — one of three finalist teams nationally. With Kritazya Upreti, I developed a soft pneumatic wrist exoskeleton for stroke rehabilitation that produces two degrees of wrist motion at once — flexion/extension and radial/ulnar deviation — from a single compact actuator instead of the stacked motors most devices need. I designed and built its control algorithm.</p>
+        <div class="award-figs">
+          <a href="nai-prize.jpg" target="_blank" rel="noopener"><img src="nai-prize.jpg" alt="Accepting the $5,000 GenSpiration Prize cheque on stage."></a>
+          <a href="nai-showcase.jpg" target="_blank" rel="noopener"><img src="nai-showcase.jpg" alt="Presenting the wrist exoskeleton poster and prototype at the NAI student showcase."></a>
+        </div>
+        <p class="award-cap">Prize presentation in Los Angeles, and the exoskeleton prototype at the student showcase.</p>
+        <div class="award-links">
+          <a href="https://www.uta.edu/news/news-releases/2026/07/23/uta-students-win-national-award" target="_blank" rel="noopener">Read the UTA story</a>
+        </div>
         <div class="mono">National Academy of Inventors · 2026</div>
       </div>
       <div class="award rv">
         <div class="prize">$2,500</div>
         <h3>Mars Autonomous Rover Rally</h3>
-        <p>Built AI Mission Manager algorithms in Python for rover control in the Space Teams PRO high-fidelity simulation. Placed 4th among university teams from four countries.</p>
+        <p>Team lead for the Mavericks, UT Arlington's entry in the Space Teams PRO design competition. I built the AI Mission Manager in Python — the layer that drives the rover between waypoints on simulated Martian terrain, running rock detection over the camera feed and taking evasive steering when an obstacle breaks the danger zone, then handing control back to waypoint navigation once the path clears. Placed 4th among university teams from four countries.</p>
+        <a class="award-media" href="https://www.youtube.com/watch?v=97vgjU9Maxk&amp;list=PLw1kmKjWhtB4OsNw07nCuQx2EGKdhnhw4&amp;index=4" target="_blank" rel="noopener" aria-label="Watch the autonomous rover run on YouTube">
+          <img src="mars-demo.jpg" alt="The rover simulation running: camera feed with detected rocks boxed inside a danger zone, and ROS node logs showing steering corrections.">
+          <span class="play"><i>▶</i></span>
+        </a>
+        <p class="award-cap">Autonomous run in progress — rock detection over the camera feed, ROS logs showing the steering correction.</p>
+        <div class="award-links">
+          <a href="https://www.youtube.com/watch?v=97vgjU9Maxk&amp;list=PLw1kmKjWhtB4OsNw07nCuQx2EGKdhnhw4&amp;index=4" target="_blank" rel="noopener">Watch the run</a>
+          <a href="mars-certificate.jpg" target="_blank" rel="noopener">Certificate</a>
+        </div>
         <div class="mono">Space Teams University · 2025</div>
       </div>
     </div>
