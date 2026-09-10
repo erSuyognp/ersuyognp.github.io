@@ -593,6 +593,120 @@ footer .wrap{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
 
     <article class="project rv">
       <div>
+        <span class="kicker mono">Digital design · SystemVerilog / Artix-7</span>
+        <h3>FPGA Options Strategy Engine</h3>
+        <p>A hardware options trading engine on an Artix-7, built to find out how much of a trading decision can be made in silicon before software ever sees the packet. A six-stage pipeline decodes a raw ITCH 5.0 market feed byte-serially, caches option legs, evaluates three spread strategies, clears six pre-trade risk checks, and emits an OUCH 4.2 order — <b>17 clock cycles tick-to-trade, about 90&nbsp;ns at a 188&nbsp;MHz Fmax</b>.</p>
+        <p>Everything runs in integer fixed-point. Strategy evaluation compares option payoffs using a cross-multiplication identity so the design never instantiates a hardware divider, and a priority-encoder scheduler walks a dirty bitmap so only legs whose quotes actually moved get re-evaluated. The leg cache hashes ticker symbols with an XOR-rotate — plain byte-XOR collapsed almost every symbol into the same few buckets, because ASCII capital letters share their high bits.</p>
+        <p class="note">Getting to 188 MHz was a synthesis lesson: my first memory read was combinational, which blocked BRAM inference and capped Fmax around 119 MHz. Splitting the read into issue and compare stages let Vivado infer block RAM properly. Verified against a Python golden model with cocotb and Verilator, running in GitHub Actions on every push.</p>
+        <div class="tags"><span>SystemVerilog</span><span>Verilator</span><span>cocotb</span><span>Vivado</span><span>AXI-Stream</span><span>Python</span></div>
+        <a class="plink" href="https://github.com/erSuyognp/fpga-options-engine" target="_blank" rel="noopener">View on GitHub</a>
+      </div>
+
+      <div class="pfig">
+        <svg viewBox="0 0 300 372" role="img" aria-label="Six-stage pipeline: ITCH decode, quote FIFO, leg cache, strategy evaluation, risk gate, OUCH encode, totalling 17 cycles.">
+          <defs>
+            <marker id="ar" viewBox="0 0 8 8" refX="4" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+              <path d="M0 0 L8 4 L0 8 z" fill="#14646F" fill-opacity=".6"/>
+            </marker>
+          </defs>
+          <text x="4" y="11" font-family="IBM Plex Mono, monospace" font-size="9" fill="#14646F" letter-spacing="1.3">MARKET FEED IN</text>
+          <g font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#0C1416">
+            <g>
+              <rect x="4" y="20" width="230" height="38" rx="2" fill="#fff" stroke="#14646F" stroke-opacity=".55"/>
+              <text x="16" y="43">ITCH 5.0 decode</text>
+              <text x="246" y="43" fill="#14646F" font-size="9">4 cy</text>
+            </g>
+            <line x1="119" y1="58" x2="119" y2="70" stroke="#14646F" stroke-opacity=".6" marker-end="url(#ar)"/>
+            <g>
+              <rect x="4" y="72" width="230" height="38" rx="2" fill="#fff" stroke="#14646F" stroke-opacity=".55"/>
+              <text x="16" y="95">Quote FIFO</text>
+              <text x="246" y="95" fill="#14646F" font-size="9">2 cy</text>
+            </g>
+            <line x1="119" y1="110" x2="119" y2="122" stroke="#14646F" stroke-opacity=".6" marker-end="url(#ar)"/>
+            <g>
+              <rect x="4" y="124" width="230" height="38" rx="2" fill="#fff" stroke="#14646F" stroke-opacity=".55"/>
+              <text x="16" y="147">Leg cache (BRAM)</text>
+              <text x="246" y="147" fill="#14646F" font-size="9">3 cy</text>
+            </g>
+            <line x1="119" y1="162" x2="119" y2="174" stroke="#14646F" stroke-opacity=".6" marker-end="url(#ar)"/>
+            <g>
+              <rect x="4" y="176" width="230" height="38" rx="2" fill="#E9EEEC" stroke="#F0B429" stroke-width="1.5"/>
+              <text x="16" y="199">Strategy eval</text>
+              <text x="246" y="199" fill="#14646F" font-size="9">5 cy</text>
+            </g>
+            <line x1="119" y1="214" x2="119" y2="226" stroke="#14646F" stroke-opacity=".6" marker-end="url(#ar)"/>
+            <g>
+              <rect x="4" y="228" width="230" height="38" rx="2" fill="#fff" stroke="#14646F" stroke-opacity=".55"/>
+              <text x="16" y="251">Risk gate ×6</text>
+              <text x="246" y="251" fill="#14646F" font-size="9">2 cy</text>
+            </g>
+            <line x1="119" y1="266" x2="119" y2="278" stroke="#14646F" stroke-opacity=".6" marker-end="url(#ar)"/>
+            <g>
+              <rect x="4" y="280" width="230" height="38" rx="2" fill="#fff" stroke="#14646F" stroke-opacity=".55"/>
+              <text x="16" y="303">OUCH 4.2 encode</text>
+              <text x="246" y="303" fill="#14646F" font-size="9">1 cy</text>
+            </g>
+          </g>
+          <line x1="4" y1="332" x2="296" y2="332" stroke="#0C1416" stroke-opacity=".18"/>
+          <text x="4" y="352" font-family="Bricolage Grotesque, sans-serif" font-size="19" font-weight="700" fill="#0C1416" letter-spacing="-.5">17 cycles</text>
+          <text x="112" y="352" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="#6C807F" letter-spacing="1.2">TICK TO TRADE · ~90 ns</text>
+        </svg>
+        <div class="cap">Pipeline stages and their cycle cost</div>
+      </div>
+    </article>
+
+    <article class="project rv">
+      <div>
+        <span class="kicker mono">Full stack · Cloudflare Workers</span>
+        <h3>Spark</h3>
+        <p>Paste a course syllabus and Spark turns every topic into a question you can't stop thinking about, with the answer deliberately withheld until you commit to a guess. The idea came from two teachers: one who had us work out a building's height from its shadow before teaching any trigonometry, and one who asked whether a sealed room gets warmer or colder when you switch on an air conditioner, then refused to answer until the lecture was over. Nobody forgets a question they got wrong. Built for the PathFinder's Challenge.</p>
+        <p>The engineering that makes it viable is the caching. Cards are keyed by <b>topic rather than by syllabus</b>, so two students whose documents are worded nothing alike but both cover the second law of thermodynamics share one generated card — and courses repeat enormously. Parsing runs on a cheap model, since stripping office hours and grading policy is mechanical; the cards themselves run on a stronger one, because specificity is the entire product. A full eight-topic syllabus costs $0.17, measured against the live API rather than estimated.</p>
+        <p class="note">Spend is metered in microdollars from the tokens each response actually reports, against both a daily and a lifetime ceiling; past a cap the API degrades to pre-written samples while cached cards keep serving. Roughly one card in five truncates mid-JSON because adaptive thinking shares its token budget with the answer, so the Worker walks a three-rung fallback ladder down to thinking disabled, where output is bounded and can't truncate. 81 assertions cover routing, cache keying, spend caps, and the guarantee that raw syllabus text never reaches the public gallery.</p>
+        <div class="tags"><span>JavaScript</span><span>Cloudflare Workers</span><span>KV</span><span>Claude API</span><span>Prompt engineering</span></div>
+        <a class="plink" href="https://fun-professor.er-suyognp.workers.dev" target="_blank" rel="noopener">Try it live</a>
+        <a class="plink" href="https://github.com/erSuyognp/Spark" target="_blank" rel="noopener" style="margin-left:1.6rem">View on GitHub</a>
+      </div>
+
+      <div class="pfig">
+        <svg viewBox="0 0 300 330" role="img" aria-label="Request flow: syllabus parsed by a cheap model into topics, cards generated by a stronger model, then cached by topic.">
+          <defs>
+            <marker id="ar2" viewBox="0 0 8 8" refX="4" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+              <path d="M0 0 L8 4 L0 8 z" fill="#14646F" fill-opacity=".6"/>
+            </marker>
+          </defs>
+          <g font-family="IBM Plex Mono, monospace" font-size="10" fill="#0C1416">
+            <rect x="60" y="6" width="180" height="30" rx="2" fill="#fff" stroke="#14646F" stroke-opacity=".5"/>
+            <text x="103" y="25">syllabus text</text>
+            <line x1="150" y1="36" x2="150" y2="52" stroke="#14646F" stroke-opacity=".6" marker-end="url(#ar2)"/>
+
+            <rect x="34" y="54" width="232" height="46" rx="2" fill="#fff" stroke="#14646F" stroke-opacity=".5"/>
+            <text x="48" y="73" font-size="10.5">Haiku · parse</text>
+            <text x="48" y="90" font-size="8.5" fill="#6C807F">strips administrivia → topics</text>
+            <text x="219" y="82" font-size="9" fill="#14646F">$0.003</text>
+            <line x1="150" y1="100" x2="150" y2="116" stroke="#14646F" stroke-opacity=".6" marker-end="url(#ar2)"/>
+
+            <rect x="34" y="118" width="232" height="46" rx="2" fill="#E9EEEC" stroke="#F0B429" stroke-width="1.5"/>
+            <text x="48" y="137" font-size="10.5">Sonnet · one card per topic</text>
+            <text x="48" y="154" font-size="8.5" fill="#6C807F">3 concurrent, schema-constrained</text>
+            <text x="212" y="146" font-size="9" fill="#14646F">$0.02 ea</text>
+            <line x1="150" y1="164" x2="150" y2="180" stroke="#14646F" stroke-opacity=".6" marker-end="url(#ar2)"/>
+
+            <rect x="34" y="182" width="232" height="46" rx="2" fill="#fff" stroke="#14646F" stroke-opacity=".5"/>
+            <text x="48" y="201" font-size="10.5">KV cache — keyed by topic</text>
+            <text x="48" y="218" font-size="8.5" fill="#6C807F">30 days · shared across courses</text>
+            <text x="150" y="250" font-size="8.5" fill="#6C807F" text-anchor="middle">repeat topic → served from cache, $0</text>
+          </g>
+          <line x1="34" y1="272" x2="266" y2="272" stroke="#0C1416" stroke-opacity=".18"/>
+          <text x="34" y="296" font-family="Bricolage Grotesque, sans-serif" font-size="20" font-weight="700" fill="#0C1416" letter-spacing="-.5">$0.17</text>
+          <text x="94" y="296" font-family="IBM Plex Mono, monospace" font-size="9" fill="#6C807F" letter-spacing="1.1">PER 8-TOPIC SYLLABUS</text>
+          <text x="34" y="316" font-family="IBM Plex Mono, monospace" font-size="8.5" fill="#6C807F" letter-spacing="1.1">MEASURED, NOT ESTIMATED</text>
+        </svg>
+        <div class="cap">Two models on purpose — cheap for parsing, better for the product</div>
+      </div>
+    </article>
+
+    <article class="project rv">
+      <div>
         <span class="kicker mono">Interactive simulation · Web</span>
         <h3>Biased Coin Desk</h3>
         <p>A Kelly criterion sandbox built on the Haghani &amp; Dewey experiment: 61 finance students were each given $25 and a coin weighted 60% toward heads. About a third of them still went broke. The edge was never the problem — the bet sizing was.</p>
@@ -636,6 +750,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
     <div class="skillcol">
       <h3>Robotics &amp; Compute</h3>
       <ul><li>ROS / ROS2</li><li>NAV2</li><li>CUDA</li><li>Jetson Nano</li><li>Computer vision (YOLO)</li></ul>
+    </div>
+    <div class="skillcol">
+      <h3>Digital Design &amp; HDL</h3>
+      <ul><li>SystemVerilog</li><li>Vivado</li><li>Verilator</li><li>cocotb</li><li>FPGA pipelining &amp; timing closure</li><li>AXI-Stream</li></ul>
     </div>
     <div class="skillcol">
       <h3>Hardware &amp; Fabrication</h3>
