@@ -593,6 +593,116 @@ footer .wrap{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
 
     <article class="project rv">
       <div>
+        <span class="kicker mono">Hackathon · CesiumJS / SpacetimeDB</span>
+        <h3>Iron Glove</h3>
+        <div class="role">★ HopHacks 2026 · Winner</div>
+        <p>A multiplayer Iron Man flight game rendered over the real JHU Homewood campus in CesiumJS with Google Photorealistic 3D Tiles. You fly the suit with full six-axis controls — thrust and brake, yaw, climb and dive, barrel rolls, and boost — while real buildings and terrain stop the suit cold and a <b>PULL UP</b> warning flashes below ~45&nbsp;m. Let go of everything and it hovers in place.</p>
+        <p>Multiplayer runs on <b>SpacetimeDB</b>, the track it was built for: each pilot's state lives in one shared <code>player_state</code> table that the server broadcasts to every other client, so you can switch cameras between pilots sharing the same sky. Optional layers stack on top — a JARVIS voice through ElevenLabs, natural-language flight commands routed through Grok, and a reinforcement-learning "Sentinel" drone mission.</p>
+        <div class="tags"><span>JavaScript</span><span>CesiumJS</span><span>Google 3D Tiles</span><span>SpacetimeDB</span><span>Vite</span><span>ElevenLabs</span></div>
+        <a class="plink" href="https://github.com/erSuyognp/Iron-Glove" target="_blank" rel="noopener">View on GitHub</a>
+      </div>
+
+      <div class="pfig">
+        <div class="stage" style="aspect-ratio:16/9">
+          <video src="ironglove-demo.mp4" poster="ironglove-poster.jpg" controls playsinline preload="none"></video>
+        </div>
+        <div class="cap">Flight demo over the JHU campus</div>
+        <svg viewBox="0 0 340 214" role="img" aria-label="Two pilot clients render the same CesiumJS world and sync their state through one shared SpacetimeDB table.">
+          <defs>
+            <marker id="arIG" viewBox="0 0 8 8" refX="4" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+              <path d="M0 0 L8 4 L0 8 z" fill="#14646F" fill-opacity=".6"/>
+            </marker>
+          </defs>
+          <g font-family="IBM Plex Mono, monospace" fill="#0C1416">
+            <rect x="30" y="10" width="280" height="32" rx="2" fill="#fff" stroke="#14646F" stroke-opacity=".55"/>
+            <text x="170" y="30" font-size="10.5" text-anchor="middle">CesiumJS · Google 3D Tiles</text>
+
+            <path d="M170 42 L170 58 M57 58 L283 58 M57 58 L57 106 M283 58 L283 106" fill="none" stroke="#14646F" stroke-opacity=".5" stroke-dasharray="3 4"/>
+            <line x1="57" y1="100" x2="57" y2="108" stroke="#14646F" stroke-opacity=".6" marker-end="url(#arIG)"/>
+            <line x1="283" y1="100" x2="283" y2="108" stroke="#14646F" stroke-opacity=".6" marker-end="url(#arIG)"/>
+
+            <rect x="14" y="110" width="86" height="44" rx="2" fill="#fff" stroke="#14646F" stroke-opacity=".55"/>
+            <text x="57" y="130" font-size="10.5" text-anchor="middle">Pilot A</text>
+            <text x="57" y="144" font-size="8" fill="#6C807F" text-anchor="middle">browser client</text>
+
+            <rect x="127" y="110" width="86" height="44" rx="2" fill="#E9EEEC" stroke="#F0B429" stroke-width="1.5"/>
+            <text x="170" y="130" font-size="10.5" text-anchor="middle">SpacetimeDB</text>
+            <text x="170" y="144" font-size="8" fill="#6C807F" text-anchor="middle">player_state</text>
+
+            <rect x="240" y="110" width="86" height="44" rx="2" fill="#fff" stroke="#14646F" stroke-opacity=".55"/>
+            <text x="283" y="130" font-size="10.5" text-anchor="middle">Pilot B</text>
+            <text x="283" y="144" font-size="8" fill="#6C807F" text-anchor="middle">browser client</text>
+
+            <line x1="100" y1="132" x2="127" y2="132" stroke="#14646F" stroke-opacity=".6" marker-start="url(#arIG)" marker-end="url(#arIG)"/>
+            <line x1="213" y1="132" x2="240" y2="132" stroke="#14646F" stroke-opacity=".6" marker-start="url(#arIG)" marker-end="url(#arIG)"/>
+
+            <text x="170" y="184" font-size="8.5" fill="#6C807F" text-anchor="middle" letter-spacing="1.1">ONE WORLD · STATE BROADCAST TO EVERY PILOT</text>
+          </g>
+        </svg>
+        <div class="cap">Each suit's state shared through one table, pushed to all clients</div>
+      </div>
+    </article>
+
+    <article class="project rv">
+      <div>
+        <span class="kicker mono">Hackathon · Python / ML / embedded · HackRice 16</span>
+        <h3>Buddy</h3>
+        <p>An AI productivity mentor that watches what you are actually doing, decides when you have drifted, and says something about it out loud. A blocklist can't tell a linear-algebra lecture on YouTube from sketch comedy on the same site, so people just disable it. Buddy classifies the <b>content</b> instead: its model learned that the word <code>lecture</code> outweighs the domain <code>youtube</code>, so on one page it stays quiet and on the other it speaks up. It never sees your screen — only the domain and the tab title.</p>
+        <p>A Chrome extension turns browsing into focus sessions and heartbeats them to a FastAPI engine, which vectorizes each with TF-IDF and scores it with logistic regression into a productivity probability. That moves a time-weighted 0-to-1 score whose trend streams to MATLAB, which returns a nudge level; Gemini writes the line, ElevenLabs voices it, and an ESP32-S3 watch polls every two seconds and plays it.</p>
+        <p class="note">Recall on the productive class is favored on purpose — interrupting someone who is genuinely working is the expensive mistake — so the honest by-template split reports about 0.925 accuracy with recall pinned near 1.0. Storage is managed Postgres (TigerData), seven plain tables, no hypertables the row count never justified.</p>
+        <div class="tags"><span>Python</span><span>FastAPI</span><span>scikit-learn</span><span>MATLAB</span><span>Gemini</span><span>ElevenLabs</span><span>ESP32-S3</span><span>React</span></div>
+        <a class="plink" href="https://github.com/erSuyognp/Buddy" target="_blank" rel="noopener">View on GitHub</a>
+      </div>
+
+      <div class="pfig">
+        <div class="stage" style="aspect-ratio:16/9">
+          <video src="buddy-demo.mp4" poster="buddy-poster.jpg" controls playsinline preload="none"></video>
+        </div>
+        <div class="cap">Demo: drift detected, the watch speaks up</div>
+        <svg viewBox="0 0 300 356" role="img" aria-label="Buddy pipeline: capture a browsing session, classify its content, score the trend, trigger a level, then speak through a watch.">
+          <defs>
+            <marker id="arBd" viewBox="0 0 8 8" refX="4" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+              <path d="M0 0 L8 4 L0 8 z" fill="#14646F" fill-opacity=".6"/>
+            </marker>
+          </defs>
+          <text x="6" y="12" font-family="IBM Plex Mono, monospace" font-size="9" fill="#14646F" letter-spacing="1.3">BROWSING IN</text>
+          <g font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#0C1416">
+            <rect x="6" y="20" width="236" height="40" rx="2" fill="#fff" stroke="#14646F" stroke-opacity=".55"/>
+            <text x="18" y="38">Chrome extension</text>
+            <text x="18" y="53" font-size="8.5" fill="#6C807F">domain + tab title, every 30s</text>
+            <line x1="124" y1="60" x2="124" y2="74" stroke="#14646F" stroke-opacity=".6" marker-end="url(#arBd)"/>
+
+            <rect x="6" y="76" width="236" height="40" rx="2" fill="#E9EEEC" stroke="#F0B429" stroke-width="1.5"/>
+            <text x="18" y="94">TF-IDF → LogReg → p</text>
+            <text x="18" y="109" font-size="8.5" fill="#6C807F">classifies content, not domain</text>
+            <line x1="124" y1="116" x2="124" y2="130" stroke="#14646F" stroke-opacity=".6" marker-end="url(#arBd)"/>
+
+            <rect x="6" y="132" width="236" height="40" rx="2" fill="#fff" stroke="#14646F" stroke-opacity=".55"/>
+            <text x="18" y="150">Time-weighted score</text>
+            <text x="18" y="165" font-size="8.5" fill="#6C807F">running EMA, 0 to 1</text>
+            <line x1="124" y1="172" x2="124" y2="186" stroke="#14646F" stroke-opacity=".6" marker-end="url(#arBd)"/>
+
+            <rect x="6" y="188" width="236" height="40" rx="2" fill="#fff" stroke="#14646F" stroke-opacity=".55"/>
+            <text x="18" y="206">MATLAB · trend</text>
+            <text x="18" y="221" font-size="8.5" fill="#6C807F">returns 0 fine / 1 drifting / 2 off</text>
+            <line x1="124" y1="228" x2="124" y2="242" stroke="#14646F" stroke-opacity=".6" marker-end="url(#arBd)"/>
+
+            <rect x="6" y="244" width="236" height="40" rx="2" fill="#fff" stroke="#14646F" stroke-opacity=".55"/>
+            <text x="18" y="262">Gemini → ElevenLabs</text>
+            <text x="18" y="277" font-size="8.5" fill="#6C807F">writes the line, voices it</text>
+            <line x1="124" y1="284" x2="124" y2="298" stroke="#14646F" stroke-opacity=".6" marker-end="url(#arBd)"/>
+
+            <rect x="6" y="300" width="236" height="40" rx="2" fill="#fff" stroke="#14646F" stroke-opacity=".55"/>
+            <text x="18" y="318">ESP32-S3 watch</text>
+            <text x="18" y="333" font-size="8.5" fill="#6C807F">polls every 2s, speaks out loud</text>
+          </g>
+        </svg>
+        <div class="cap">Sees only the domain and tab title, never the screen</div>
+      </div>
+    </article>
+
+    <article class="project rv">
+      <div>
         <span class="kicker mono">Digital design · SystemVerilog / Artix-7</span>
         <h3>FPGA Options Strategy Engine</h3>
         <p>A hardware options trading engine on an Artix-7, built to find out how much of a trading decision can be made in silicon before software ever sees the packet. A six-stage pipeline decodes a raw ITCH 5.0 market feed byte-serially, caches option legs, evaluates three spread strategies, clears six pre-trade risk checks, and emits an OUCH 4.2 order — <b>17 clock cycles tick-to-trade, about 90&nbsp;ns at a 188&nbsp;MHz Fmax</b>.</p>
