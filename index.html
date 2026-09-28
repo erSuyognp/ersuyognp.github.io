@@ -335,6 +335,8 @@ section{padding-block:clamp(4rem,9vw,7.5rem);position:relative}
 .vcap{font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);min-height:2.4em;line-height:1.6}
 .thumbs{display:flex;gap:.5rem;flex-wrap:wrap}
 .thumb{width:58px;height:58px;padding:0;border:1px solid var(--line);background:var(--bg-3);cursor:pointer;overflow:hidden;position:relative;transition:.2s;opacity:.55;flex:none}
+.vfull{color:var(--arc);text-decoration:none;border-bottom:1px solid var(--arc-dim);white-space:nowrap}
+.vfull:hover{color:var(--gold);border-color:var(--gold)}
 .thumb img{width:100%;height:100%;object-fit:cover;display:block}
 .thumb:hover{opacity:1}
 .thumb.is-on{opacity:1;border-color:var(--arc);box-shadow:0 0 12px var(--arc-glow)}
@@ -832,7 +834,48 @@ footer span{color:var(--arc)}
     </article>
 
     <article class="project panel rv">
-      <div class="phead"><span class="pid">PRJ-04</span><span>FPGA Options Strategy Engine</span><span class="status dev">188 MHz Fmax · CI verified</span></div>
+      <div class="phead"><span class="pid">PRJ-04</span><span>SpeedMart</span><span class="status dev">HackGT 13 · Solo build</span></div>
+      <div class="pbody">
+        <span class="kicker mono">Hackathon · Computer vision / embedded · HackGT 13</span>
+        <h3>SpeedMart</h3>
+        <p>A grab-and-go store I built solo at HackGT 13. Tap your phone to walk in, take what you want off the shelf, and it appears in your phone cart in about a second. Put it back and it disappears. The only thing you ever do on purpose is approve the charge, with Face ID.</p>
+        <p>I labeled shelf photos in Roboflow and trained a YOLO model in Google Colab to recognize the five products. A vision worker runs it on an overhead camera feed, waits for the shelf to settle, and posts stable counts per bay to a FastAPI backend. The backend never counts pick-up and put-back events. It <b>recomputes the cart</b> from what is missing on the shelf, so a dropped frame or a hovering hand can't leave a phantom item behind.</p>
+        <p>Around that core: WebAuthn passkeys for sign-in, NFC stickers at the door, a Stripe hold capped at the shopper's budget, a store agent on Grok and ElevenLabs that plans items and lights up the right bays, and an ESP32 <span style="white-space:nowrap">T-Display-S3</span> gate screen driven over serial.</p>
+        <p class="note">Returns are backed by evidence: the camera keeps short clips, an AI reviews the claim, small clear cases refund on their own, and a person decides the rest. I wrote the spec first, then built it by directing Claude Code agents across separate parts of the codebase, checked against more than 400 acceptance tests and live shelf runs.</p>
+        <div class="tags"><span>Python</span><span>FastAPI</span><span>YOLO</span><span>OpenCV</span><span>WebSockets</span><span>WebAuthn</span><span>Stripe</span><span>ESP32</span></div>
+        <a class="plink" href="https://devpost.com/software/speedmart-f6ltwc" target="_blank" rel="noopener">View on Devpost</a>
+        <a class="plink" href="https://github.com/erSuyognp/SpeedMart" target="_blank" rel="noopener">View on GitHub</a>
+      </div>
+
+      <div class="pside">
+        <div class="pfig">
+          <div class="stage stage-yt" style="aspect-ratio:16/9">
+            <iframe src="https://www.youtube-nocookie.com/embed/vziEQ8J-iqU" title="SpeedMart demo" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+          <div class="cap">Demo: grab, go, approve</div>
+        </div>
+        <div class="viewer">
+          <div class="stage">
+            <img src="speedmart-kiosk.webp" alt="SpeedMart screenshots and diagrams">
+          </div>
+          <p class="vcap">Store kiosk: shopper progress, budget left, the exit QR code, and bays glowing for the shopper's list. <a class="vfull" href="speedmart-kiosk.webp" target="_blank" rel="noopener">Full size</a></p>
+          <div class="thumbs">
+            <button class="thumb is-on" data-src="speedmart-kiosk.webp" data-cap="Store kiosk: shopper progress, budget left, the exit QR code, and bays glowing for the shopper's list." aria-label="Store kiosk"><img src="speedmart-kiosk.webp" alt="" loading="lazy"></button>
+            <button class="thumb" data-src="speedmart-yolo.webp" data-cap="YOLO detection on the live shelf feed, one box per product with its confidence score." aria-label="YOLO detection"><img src="speedmart-yolo.webp" alt="" loading="lazy"></button>
+            <button class="thumb" data-src="speedmart-join.png" data-cap="Joining on the phone: a first name and a budget the store agent can never go over." aria-label="Join screen"><img src="speedmart-join.png" alt="" loading="lazy"></button>
+            <button class="thumb" data-src="speedmart-cart.png" data-cap="The phone cart. Items appear as they leave the shelf and vanish when they go back." aria-label="Phone cart"><img src="speedmart-cart.png" alt="" loading="lazy"></button>
+            <button class="thumb" data-src="speedmart-control.webp" data-cap="Control room: store state, vision latency, serial link, Stripe test mode, and live counts per bay." aria-label="Control room"><img src="speedmart-control.webp" alt="" loading="lazy"></button>
+            <button class="thumb" data-src="speedmart-review.webp" data-cap="Review queue: a disputed charge, the AI's read of the evidence, and shelf photos from entry and checkout." aria-label="Review queue"><img src="speedmart-review.webp" alt="" loading="lazy"></button>
+            <button class="thumb" data-src="speedmart-architecture.webp" data-cap="System architecture: offline YOLO training, the vision worker, the FastAPI backend, the store floor, and cloud services." aria-label="Architecture"><img src="speedmart-architecture.webp" alt="" loading="lazy"></button>
+            <button class="thumb" data-src="speedmart-sequence.png" data-cap="One full visit, from joining to a refund, across shopper, phone, kiosk, backend, camera, Stripe, and gate screen." aria-label="Sequence diagram"><img src="speedmart-sequence.png" alt="" loading="lazy"></button>
+            <button class="thumb" data-src="speedmart-flow.png" data-cap="Decision flow: the AI plans within budget, diet, and stock. Small, clear disputes refund on their own and a person decides the rest." aria-label="Decision flow"><img src="speedmart-flow.png" alt="" loading="lazy"></button>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="project panel rv">
+      <div class="phead"><span class="pid">PRJ-05</span><span>FPGA Options Strategy Engine</span><span class="status dev">188 MHz Fmax · CI verified</span></div>
       <div class="pbody">
         <span class="kicker mono">Digital design · SystemVerilog / Artix-7</span>
         <h3>FPGA Options Strategy Engine</h3>
@@ -887,7 +930,7 @@ footer span{color:var(--arc)}
     </article>
 
     <article class="project panel rv">
-      <div class="phead"><span class="pid">PRJ-05</span><span>Spark</span><span class="status">Live · Cloudflare Workers</span></div>
+      <div class="phead"><span class="pid">PRJ-06</span><span>Spark</span><span class="status">Live · Cloudflare Workers</span></div>
       <div class="pbody">
         <span class="kicker mono">Full stack · Cloudflare Workers</span>
         <h3>Spark</h3>
@@ -937,7 +980,7 @@ footer span{color:var(--arc)}
     </article>
 
     <article class="project panel rv">
-      <div class="phead"><span class="pid">PRJ-06</span><span>Biased Coin Desk</span><span class="status">Live simulator</span></div>
+      <div class="phead"><span class="pid">PRJ-07</span><span>Biased Coin Desk</span><span class="status">Live simulator</span></div>
       <div class="pbody">
         <span class="kicker mono">Interactive simulation · Web</span>
         <h3>Biased Coin Desk</h3>
@@ -1149,24 +1192,26 @@ footer span{color:var(--arc)}
   }
 
   // Project media viewer
-  var viewer = document.getElementById('hfa');
-  if (viewer) {
-    var vImg = document.getElementById('hfa-img'),
-        vVid = document.getElementById('hfa-vid'),
-        vCap = document.getElementById('hfa-cap');
+  document.querySelectorAll('.viewer').forEach(function(viewer){
+    var vImg = viewer.querySelector('.stage img'),
+        vVid = viewer.querySelector('.stage video'),
+        vCap = viewer.querySelector('.vcap');
     viewer.querySelectorAll('.thumb').forEach(function(btn){
       btn.addEventListener('click', function(){
         viewer.querySelectorAll('.thumb').forEach(function(b){ b.classList.remove('is-on'); });
         btn.classList.add('is-on');
-        vCap.textContent = btn.dataset.cap || '';
-        if (btn.dataset.video) {
+        var full = vCap.querySelector('.vfull');
+        vCap.textContent = (btn.dataset.cap || '') + (full ? ' ' : '');
+        if (full) { full.href = btn.dataset.src || full.href; vCap.appendChild(full); }
+        if (btn.dataset.video && vVid) {
           vImg.hidden = true; vVid.hidden = false; vVid.play().catch(function(){});
         } else {
-          vVid.pause(); vVid.hidden = true; vImg.hidden = false; vImg.src = btn.dataset.src;
+          if (vVid) { vVid.pause(); vVid.hidden = true; }
+          vImg.hidden = false; vImg.src = btn.dataset.src;
         }
       });
     });
-  }
+  });
 
   // Live readout synced to the actuator animation
   var ang = document.getElementById('ang'), kpa = document.getElementById('kpa'),
