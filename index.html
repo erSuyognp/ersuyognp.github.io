@@ -1343,6 +1343,8 @@ footer span{color:var(--arc)}
     }
   }
 
+  // Draw the resting pose right away so the actuator shows even before the first frame.
+  render(0, 0);
   if (reduce) { render(0, 0.8); return; }
 
   var PERIOD = 3800;
@@ -1353,9 +1355,12 @@ footer span{color:var(--arc)}
     if (t < 0.92){ var b = 1 - (t - 0.62) / 0.3; return b*b*(3 - 2*b); }
     return 0;
   }
-  var start = performance.now();
+  // Time from the first frame's own timestamp. A frame timestamp can be slightly earlier
+  // than performance.now() taken during load, which would make elapsed time negative.
+  var start = null;
   function tick(now){
-    var e = now - start, mi = Math.floor(e / PERIOD) % MODES.length;
+    if (start === null) start = now;
+    var e = Math.max(0, now - start), mi = Math.floor(e / PERIOD) % MODES.length;
     render(mi, phase((e % PERIOD) / PERIOD));
     requestAnimationFrame(tick);
   }
