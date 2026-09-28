@@ -178,10 +178,31 @@ h1 em{font-style:normal;display:block;color:var(--arc);
 .hud-tag{position:absolute;z-index:2;font-family:var(--mono);font-size:.56rem;letter-spacing:.2em;text-transform:uppercase;color:var(--arc);padding:.38rem .6rem;border:1px solid var(--line-2);background:rgba(4,7,13,.8)}
 .hud-tag.tl{top:4%;left:0}.hud-tag.br{bottom:4%;right:0;color:var(--gold);border-color:var(--gold-dim)}
 .hud-tag.br::before{content:"";display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--red);box-shadow:0 0 8px var(--red);margin-right:.5em;vertical-align:1px;animation:blink 1.2s infinite}
-.j{transform-box:view-box;transform-origin:0 0;animation:bend 4.4s cubic-bezier(.44,.02,.4,1) infinite;animation-delay:var(--d,0s)}
+.exo{--c1:#3DFF9A;--c2:#C77DFF}
+.exo .body{fill:rgba(63,224,255,.07);stroke:#8AF0FF;stroke-opacity:.8;stroke-width:1.1;stroke-linejoin:round}
+.exo .rib{fill:rgba(138,240,255,.1)}
+.exo .tab{fill:rgba(63,224,255,.12);stroke:#8AF0FF;stroke-opacity:.55;stroke-width:.9}
+.exo .ghost{fill:none;stroke:#3FE0FF;stroke-opacity:.22;stroke-width:1;stroke-dasharray:2 4}
+.exo .cav{stroke-width:.8;stroke-dasharray:2 2;fill-opacity:0;stroke-opacity:.35}
+.exo .cham{fill-opacity:.12;stroke:none}
+.exo .c1{fill:var(--c1);stroke:var(--c1)}.exo .c2{fill:var(--c2);stroke:var(--c2)}
+.exo .c1t{fill:var(--c1)}.exo .c2t{fill:var(--c2)}
+.exo .wall{stroke:#E4ECF6;stroke-opacity:.75;stroke-width:1.6;fill:none}
+.exo .tube{stroke:#8AF0FF;stroke-opacity:.35;stroke-width:6;stroke-linecap:round;fill:none}
+.exo .fit{fill:rgba(63,224,255,.12);stroke:#8AF0FF;stroke-opacity:.5}
+.exo .air{fill:none;stroke:#F5B942;stroke-width:2;stroke-linecap:round;opacity:0;transition:opacity .3s}
+.exo .air.c1s{stroke:var(--c1)}.exo .air.c2s{stroke:var(--c2)}
+.exo .air.on{opacity:1}.exo .air.rev{animation-direction:reverse}
+.exo .dim{stroke:#7F90A9;stroke-opacity:.6;stroke-width:1}
+.exo .dimt{fill:#7F90A9}
+.exo .vlbl{fill:#7F90A9;transition:fill .3s}.exo .vlbl.on{fill:#F5B942}
 .air{stroke-dasharray:5 7;animation:flow 1.1s linear infinite}
+.telemetry b.c1t{color:#3DFF9A}.telemetry b.c2t{color:#C77DFF}
+.telemetry .bar i.c1b{background:#3DFF9A;box-shadow:0 0 8px #3DFF9A}
+.telemetry .bar i.c2b{background:#C77DFF;box-shadow:0 0 8px #C77DFF}
+.telemetry .bar i.vac{background:var(--red);box-shadow:0 0 8px var(--red)}
 .telemetry{margin-top:.75rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
-.telemetry div{background:rgba(6,10,18,.88);padding:.85rem .9rem;font-family:var(--mono);font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mute)}
+.telemetry>div{background:rgba(6,10,18,.88);padding:.85rem .9rem;font-family:var(--mono);font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mute)}
 .telemetry b{display:block;font-family:var(--display);font-size:1.5rem;font-weight:600;letter-spacing:0;text-transform:none;color:var(--arc);margin-top:.3rem;font-variant-numeric:tabular-nums;line-height:1}
 .telemetry .bar{height:2px;background:rgba(63,224,255,.14);margin-top:.6rem;overflow:hidden}
 .telemetry .bar i{display:block;height:100%;width:0;background:var(--arc);box-shadow:0 0 8px var(--arc)}
@@ -378,14 +399,13 @@ footer span{color:var(--arc)}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
 @keyframes load{to{width:100%}}
-@keyframes bend{0%,12%{transform:rotate(0deg)}50%{transform:rotate(-9.2deg)}88%,100%{transform:rotate(0deg)}}
 @keyframes flow{to{stroke-dashoffset:-24}}
 @keyframes scan{to{transform:translateY(350%)}}
 @keyframes ticker{to{transform:translateX(-50%)}}
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   *,*::before,*::after{animation-duration:.001s!important;animation-iteration-count:1!important}
-  .j{animation:none;transform:rotate(-6.5deg)}
+  .air{animation:none}
   .rv{opacity:1;transform:none;transition:none}
   .reactor{transition:none}
   .ticker ul{animation:none;width:auto;flex-wrap:wrap}
@@ -446,64 +466,58 @@ footer span{color:var(--arc)}
         <div class="ring r4" aria-hidden="true"></div>
         <div class="ticks" aria-hidden="true"></div>
         <div class="hud-tag tl" aria-hidden="true">Actuator // 2-DoF wrist</div>
-        <div class="hud-tag br" aria-hidden="true">Live sim</div>
-        <svg viewBox="0 0 420 400" role="img" aria-label="Diagram of a soft pneumatic wrist actuator bending through its range of motion.">
-          <defs>
-            <linearGradient id="chamber" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0" stop-color="#3FE0FF" stop-opacity=".55"/>
-              <stop offset="1" stop-color="#8AF0FF" stop-opacity=".18"/>
-            </linearGradient>
-          </defs>
-          <path d="M210 150 A 180 180 0 0 0 74 216" fill="none" stroke="#3FE0FF" stroke-opacity=".35" stroke-width="1" stroke-dasharray="2 6"/>
-          <text x="86" y="176" fill="#3FE0FF" fill-opacity=".8" font-family="JetBrains Mono, monospace" font-size="11" letter-spacing="1.4">0–54°</text>
-          <rect x="84" y="316" width="72" height="40" rx="2" fill="rgba(63,224,255,.06)" stroke="#3FE0FF" stroke-opacity=".45"/>
-          <text x="92" y="341" fill="#3FE0FF" fill-opacity=".8" font-family="JetBrains Mono, monospace" font-size="10" letter-spacing="1.2">PUMP</text>
-          <path class="air" d="M156 336 C 176 336 182 336 192 332" fill="none" stroke="#F5B942" stroke-width="2" stroke-linecap="round"/>
-          <rect x="176" y="330" width="68" height="12" rx="2" fill="#3FE0FF" fill-opacity=".3"/>
-          <g transform="translate(210,330)">
-            <g class="j" style="--d:0s">
-              <rect x="-24" y="-30" width="48" height="30" rx="7" fill="url(#chamber)" stroke="#8AF0FF" stroke-opacity=".85"/>
-              <line x1="-24" y1="-15" x2="24" y2="-15" stroke="#8AF0FF" stroke-opacity=".4"/>
-              <g transform="translate(0,-30)">
-                <g class="j" style="--d:.07s">
-                  <rect x="-24" y="-30" width="48" height="30" rx="7" fill="url(#chamber)" stroke="#8AF0FF" stroke-opacity=".85"/>
-                  <line x1="-24" y1="-15" x2="24" y2="-15" stroke="#8AF0FF" stroke-opacity=".4"/>
-                  <g transform="translate(0,-30)">
-                    <g class="j" style="--d:.14s">
-                      <rect x="-24" y="-30" width="48" height="30" rx="7" fill="url(#chamber)" stroke="#8AF0FF" stroke-opacity=".85"/>
-                      <line x1="-24" y1="-15" x2="24" y2="-15" stroke="#8AF0FF" stroke-opacity=".4"/>
-                      <g transform="translate(0,-30)">
-                        <g class="j" style="--d:.21s">
-                          <rect x="-24" y="-30" width="48" height="30" rx="7" fill="url(#chamber)" stroke="#8AF0FF" stroke-opacity=".85"/>
-                          <line x1="-24" y1="-15" x2="24" y2="-15" stroke="#8AF0FF" stroke-opacity=".4"/>
-                          <g transform="translate(0,-30)">
-                            <g class="j" style="--d:.28s">
-                              <rect x="-24" y="-30" width="48" height="30" rx="7" fill="url(#chamber)" stroke="#8AF0FF" stroke-opacity=".85"/>
-                              <line x1="-24" y1="-15" x2="24" y2="-15" stroke="#8AF0FF" stroke-opacity=".4"/>
-                              <g transform="translate(0,-30)">
-                                <g class="j" style="--d:.35s">
-                                  <rect x="-24" y="-30" width="48" height="30" rx="7" fill="url(#chamber)" stroke="#8AF0FF" stroke-opacity=".85"/>
-                                  <line x1="-24" y1="-15" x2="24" y2="-15" stroke="#8AF0FF" stroke-opacity=".4"/>
-                                  <rect x="-32" y="-42" width="64" height="14" rx="3" fill="none" stroke="#F5B942" stroke-width="2"/>
-                                  <circle cx="0" cy="-35" r="3" fill="#F5B942"/>
-                                </g>
-                              </g>
-                            </g>
-                          </g>
-                        </g>
-                      </g>
-                    </g>
-                  </g>
-                </g>
-              </g>
+        <div class="hud-tag br" id="exo-tag" aria-hidden="true">Flexion · both chambers</div>
+        <svg class="exo" viewBox="0 0 420 400" role="img" aria-label="Side view, top view, and cross section of the two chamber soft pneumatic wrist actuator, cycling through flexion, extension, radial deviation, and ulnar deviation using angles measured in the paper.">
+          <g font-family="JetBrains Mono, monospace" letter-spacing="1.4">
+            <text id="lbl-side" class="vlbl" x="36" y="44" font-size="9.5">SIDE</text>
+            <text id="lbl-top" class="vlbl" x="36" y="270" font-size="9.5">TOP</text>
+            <text x="36" y="57" font-size="8" class="dimt">140 mm</text>
+          </g>
+
+          <!-- side view: flexion and extension -->
+          <path id="sv-ghost" class="ghost"/>
+          <path d="M79 93 H62" class="tube"/>
+          <rect x="54" y="88" width="9" height="10" rx="1" class="fit"/>
+          <path id="sv-air" d="M62 93 H95" class="air"/>
+          <path id="sv-cav1" class="cav c1"/>
+          <path id="sv-cav2" class="cav c2"/>
+          <path id="sv-body" class="body"/>
+          <path id="sv-ribs" class="body rib"/>
+          <path id="sv-tabs" class="tab"/>
+
+          <!-- top view: radial and ulnar deviation -->
+          <path id="tv-ghost" class="ghost"/>
+          <path d="M112 306.8 H92 M112 329.2 H92" class="tube"/>
+          <path id="tv-air1" d="M92 306.8 H112" class="air c1s"/>
+          <path id="tv-air2" d="M92 329.2 H112" class="air c2s"/>
+          <text x="83" y="310" font-family="JetBrains Mono, monospace" font-size="8.5" text-anchor="end" class="c1t">1</text>
+          <text x="83" y="332.5" font-family="JetBrains Mono, monospace" font-size="8.5" text-anchor="end" class="c2t">2</text>
+          <path id="tv-body" class="body"/>
+          <path id="tv-c1" class="cham c1"/>
+          <path id="tv-c2" class="cham c2"/>
+          <path id="tv-ribs" class="body rib"/>
+          <path id="tv-wall" class="wall"/>
+          <path id="tv-tabs" class="tab"/>
+
+          <!-- cross section -->
+          <g transform="translate(378 84)">
+            <rect x="-25" y="0" width="50" height="4.5" class="body"/>
+            <path d="M-22 0 A22 22 0 0 1 22 0 Z" class="body"/>
+            <path id="sec-c1" d="M-1.2 0 V-18.4 A18.4 18.4 0 0 0 -18.4 0 Z" class="cham c1"/>
+            <path id="sec-c2" d="M1.2 0 V-18.4 A18.4 18.4 0 0 1 18.4 0 Z" class="cham c2"/>
+            <line x1="0" y1="0" x2="0" y2="-19" class="wall"/>
+            <g font-family="JetBrains Mono, monospace" font-size="8" text-anchor="middle">
+              <text x="-9" y="-5" class="c1t">1</text><text x="9" y="-5" class="c2t">2</text>
+              <text x="0" y="17" class="dimt" letter-spacing="1.2">SECTION</text>
+              <text x="0" y="28" class="dimt" letter-spacing="1">40 × 40 mm</text>
             </g>
           </g>
         </svg>
       </div>
       <div class="telemetry">
-        <div>Flexion<b id="ang">0.0°</b><div class="bar"><i id="ang-bar"></i></div></div>
-        <div>Chamber<b id="kpa">0 kPa</b><div class="bar"><i id="kpa-bar"></i></div></div>
-        <div>Loop<b>1 kHz</b><div class="bar"><i class="full"></i></div></div>
+        <div><span id="exo-mode">Flexion</span><b id="ang">0.0°</b><div class="bar"><i id="ang-bar"></i></div></div>
+        <div>Chamber 1<b id="kpa1" class="c1t">0 kPa</b><div class="bar"><i id="p1-bar" class="c1b"></i></div></div>
+        <div>Chamber 2<b id="kpa2" class="c2t">0 kPa</b><div class="bar"><i id="p2-bar" class="c2b"></i></div></div>
       </div>
     </div>
   </div>
@@ -1213,31 +1227,136 @@ footer span{color:var(--arc)}
     });
   });
 
-  // Live readout synced to the actuator animation
-  var ang = document.getElementById('ang'), kpa = document.getElementById('kpa'),
-      angBar = document.getElementById('ang-bar'), kpaBar = document.getElementById('kpa-bar');
-  var MAX_ANGLE = 54, MAX_KPA = 96, PERIOD = 4400;
+  // Wrist actuator model. Geometry and measured curves from the BioRob 2026 paper.
+  var $ = function(id){ return document.getElementById(id); };
+  var ang = $('ang'), angBar = $('ang-bar'), modeEl = $('exo-mode'), tagEl = $('exo-tag'),
+      kpa1 = $('kpa1'), kpa2 = $('kpa2'), p1Bar = $('p1-bar'), p2Bar = $('p2-bar');
+  if (!ang) return;
 
-  if (reduce) {
-    ang.textContent = '39.0°'; kpa.textContent = '69 kPa';
-    angBar.style.width = '72%'; kpaBar.style.width = '72%';
-    return;
+  // Angle in degrees versus pressure magnitude in kPa, traced from Figs. 10 and 11.
+  var FLEX = [[0,0],[25,.5],[40,1],[50,2],[55,4],[58,10],[62,11.5],[68,13],[72,15],[76,20],[82,22],[88,27],[94,30],[100,34],[107,37],[113,40],[120,44],[126,47],[132,51],[138,55]],
+      EXT  = [[0,0],[10,.5],[20,2.5],[30,6],[40,10.5],[50,11.5],[60,12.5],[66,13.5],[70,15]],
+      RAD  = [[0,0],[25,2],[50,6],[75,11],[100,15],[125,18],[138,19]],
+      ULN  = [[0,0],[25,1],[50,4],[75,9],[100,14],[125,18],[138,22]];
+  var MODES = [
+    {name:'Flexion',    tag:'Flexion · both chambers', p1:138, p2:138, curve:FLEX, view:'side', sign: 1},
+    {name:'Extension',  tag:'Extension · vacuum',      p1:-70, p2:-70, curve:EXT,  view:'side', sign:-1},
+    {name:'Radial dev', tag:'Radial · chamber 1',      p1:138, p2:0,   curve:RAD,  view:'top',  sign: 1},
+    {name:'Ulnar dev',  tag:'Ulnar · chamber 2',       p1:0,   p2:138, curve:ULN,  view:'top',  sign:-1}
+  ];
+  function interp(c, x){
+    for (var i = 1; i < c.length; i++) if (x <= c[i][0]) {
+      var t = (x - c[i-1][0]) / (c[i][0] - c[i-1][0]);
+      return c[i-1][1] + t * (c[i][1] - c[i-1][1]);
+    }
+    return c[c.length-1][1];
   }
 
+  // Geometry in mm. x runs along the actuator from the inlet end, y is up from the base.
+  var X0 = 20, LB = 80, X1 = 100, RIBS = [];
+  for (var r = 0; r < 6; r++) RIBS.push(22 + r * 13.6);
+  function rect(x0, y0, x1, y1){ return [[x0,y0],[x0,y1],[x1,y1],[x1,y0]]; }
+  function dens(pts, open){
+    var out = [], n = open ? pts.length - 1 : pts.length;
+    for (var i = 0; i < n; i++) {
+      var a = pts[i], b = pts[(i+1) % pts.length], m = Math.max(1, Math.ceil(Math.abs(b[0]-a[0]) / 2));
+      for (var k = 0; k < m; k++) out.push([a[0] + (b[0]-a[0])*k/m, a[1] + (b[1]-a[1])*k/m]);
+    }
+    if (open) out.push(pts[pts.length-1]);
+    return out;
+  }
+  // Side view: base strip, inlet block, core, distal wedge, six half bellow ribs, sewing tabs, cavity.
+  var svBody = [rect(0,0,140,4), [[0,4],[0,24],[6,33],[20,33],[20,4]], rect(20,4,100,30), [[100,4],[100,38],[106,38],[140,10],[140,4]]].map(function(p){ return dens(p); });
+  var svRibs = RIBS.map(function(x){ return dens([[x,4],[x,36],[x+1.2,39.2],[x+2.8,40],[x+5.2,40],[x+6.8,39.2],[x+8,36],[x+8,4]]); });
+  var svTabs = RIBS.map(function(x){ return dens(rect(x+1,-4.5,x+7,0)); });
+  var cav = [[21.5,7],[21.5,27]];
+  RIBS.forEach(function(x){ cav.push([x+2,27],[x+2,37],[x+6,37],[x+6,27]); });
+  cav.push([98.5,27],[98.5,7]);
+  var svCav = [dens(cav)];
+  // Top view: here y is lateral, with chamber 1 on the positive side of the central wall.
+  var tvBody = [rect(0,-18,20,18), rect(20,-15,100,15), rect(100,-18,140,18)].map(function(p){ return dens(p); })
+    .concat([dens([[106,-18],[106,18]], true)]);
+  var tvRibs = RIBS.map(function(x){ return dens(rect(x,-18,x+8,18)); });
+  var tvTabs = [];
+  RIBS.forEach(function(x){
+    [1,-1].forEach(function(sd){
+      tvTabs.push(dens(rect(x+1, sd*18, x+7, sd*22.5)));
+      var h = [];
+      for (var k = 0; k < 8; k++) h.push([x+4 + 1.1*Math.cos(k*Math.PI/4), sd*20.4 + 1.1*Math.sin(k*Math.PI/4)]);
+      tvTabs.push(h);
+    });
+  });
+  var tvC1 = [dens(rect(21.5,1.4,98.5,13.5))], tvC2 = [dens(rect(21.5,-13.5,98.5,-1.4))],
+      tvWall = [dens([[20,0],[100,0]], true)];
+
+  // Constant curvature bend about the strain limited base (y = 0). Both end blocks stay rigid.
+  function bend(x, y, th){
+    if (x <= X0 || Math.abs(th) < 1e-5) return [x, y];
+    var k = th / LB, R = 1 / k;
+    if (x <= X1) { var f = k * (x - X0); return [X0 + (R + y) * Math.sin(f), -R + (R + y) * Math.cos(f)]; }
+    var bx = X0 + R * Math.sin(th), by = -R + R * Math.cos(th), d = x - X1;
+    return [bx + d * Math.cos(th) + y * Math.sin(th), by - d * Math.sin(th) + y * Math.cos(th)];
+  }
+  function toD(shapes, th, ox, oy, sc, closed){
+    return shapes.map(function(pts){
+      return pts.map(function(p, i){
+        var q = bend(p[0], p[1], th);
+        return (i ? 'L' : 'M') + (ox + q[0]*sc).toFixed(1) + ' ' + (oy - q[1]*sc).toFixed(1);
+      }).join('') + (closed === false || pts.length === 2 ? '' : 'Z');
+    }).join('');
+  }
+  var S1 = 1.75, SX = 95, SY = 128, S2 = 1.4, TX = 112, TY = 318;
+  function side(id, shapes, th){ $(id).setAttribute('d', toD(shapes, th, SX, SY, S1)); }
+  function top(id, shapes, th, closed){ $(id).setAttribute('d', toD(shapes, th, TX, TY, S2, closed)); }
+  side('sv-ghost', svBody.concat(svRibs), 0);
+  top('tv-ghost', [tvBody[0], tvBody[1], tvBody[2]].concat(tvRibs), 0);
+
+  var airS = $('sv-air'), air1 = $('tv-air1'), air2 = $('tv-air2'), lblS = $('lbl-side'), lblT = $('lbl-top');
+  function fmtKpa(p){ return (p < 0 ? '−' : '') + Math.abs(Math.round(p)) + ' kPa'; }
+  function setAir(el, p){ el.classList.toggle('on', Math.abs(p) > 2); el.classList.toggle('rev', p < 0); }
+  function op(p){ return 0.1 + 0.55 * Math.min(1, Math.abs(p) / 138); }
+
+  var lastMode = -1;
+  function render(mi, ph){
+    var m = MODES[mi], mag = Math.max(Math.abs(m.p1), Math.abs(m.p2)) * ph,
+        deg = interp(m.curve, mag), th = m.sign * deg * Math.PI / 180,
+        p1 = m.p1 * ph, p2 = m.p2 * ph,
+        thS = m.view === 'side' ? th : 0, thT = m.view === 'top' ? th : 0;
+    side('sv-body', svBody, thS); side('sv-ribs', svRibs, thS); side('sv-tabs', svTabs, thS);
+    side('sv-cav1', svCav, thS); side('sv-cav2', svCav, thS);
+    top('tv-body', tvBody, thT); top('tv-ribs', tvRibs, thT); top('tv-tabs', tvTabs, thT);
+    top('tv-c1', tvC1, thT); top('tv-c2', tvC2, thT); top('tv-wall', tvWall, thT, false);
+    $('sv-cav1').style.fillOpacity = Math.abs(p1) > 2 ? (op(p1) * 0.7).toFixed(2) : 0;
+    $('sv-cav2').style.fillOpacity = Math.abs(p2) > 2 ? (op(p2) * 0.7).toFixed(2) : 0;
+    $('tv-c1').style.fillOpacity = op(p1).toFixed(2); $('tv-c2').style.fillOpacity = op(p2).toFixed(2);
+    $('sec-c1').style.fillOpacity = op(p1).toFixed(2); $('sec-c2').style.fillOpacity = op(p2).toFixed(2);
+    setAir(airS, p1 || p2); setAir(air1, p1); setAir(air2, p2);
+    ang.textContent = deg.toFixed(1) + '°';
+    angBar.style.width = (deg / 55 * 100) + '%';
+    kpa1.textContent = fmtKpa(p1); kpa2.textContent = fmtKpa(p2);
+    p1Bar.style.width = (Math.abs(p1) / 138 * 100) + '%';
+    p2Bar.style.width = (Math.abs(p2) / 138 * 100) + '%';
+    p1Bar.classList.toggle('vac', p1 < 0); p2Bar.classList.toggle('vac', p2 < 0);
+    if (mi !== lastMode) {
+      lastMode = mi; modeEl.textContent = m.name; tagEl.textContent = m.tag;
+      lblS.classList.toggle('on', m.view === 'side'); lblT.classList.toggle('on', m.view === 'top');
+    }
+  }
+
+  if (reduce) { render(0, 0.8); return; }
+
+  var PERIOD = 3800;
   function phase(t){
     if (t < 0.12) return 0;
     if (t < 0.5){ var a = (t - 0.12) / 0.38; return a*a*(3 - 2*a); }
-    if (t < 0.88){ var b = 1 - (t - 0.5) / 0.38; return b*b*(3 - 2*b); }
+    if (t < 0.62) return 1;
+    if (t < 0.92){ var b = 1 - (t - 0.62) / 0.3; return b*b*(3 - 2*b); }
     return 0;
   }
-
   var start = performance.now();
   function tick(now){
-    var p = phase(((now - start) % PERIOD) / PERIOD);
-    ang.textContent = (p * MAX_ANGLE).toFixed(1) + '°';
-    kpa.textContent = Math.round(p * MAX_KPA) + ' kPa';
-    angBar.style.width = (p * 100) + '%';
-    kpaBar.style.width = (p * 100) + '%';
+    var e = now - start, mi = Math.floor(e / PERIOD) % MODES.length;
+    render(mi, phase((e % PERIOD) / PERIOD));
     requestAnimationFrame(tick);
   }
   requestAnimationFrame(tick);
