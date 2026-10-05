@@ -131,6 +131,7 @@ h1,h2,h3{font-family:var(--display);margin:0}
   .nav a.lnk{font-size:.9rem;padding:1.1rem 0;border-bottom:1px solid var(--line);display:block}
 }
 @media(max-width:600px){.sys{display:none}}
+@media(min-width:941px) and (max-width:1180px){.sys{display:none}}
 
 /* ---------- hero ---------- */
 .hero{min-height:100vh;min-height:100svh;padding-top:calc(var(--nav-h) + clamp(2.5rem,7vw,5rem));display:flex;flex-direction:column;position:relative;overflow:hidden}
@@ -325,6 +326,22 @@ section{padding-block:clamp(4rem,9vw,7.5rem);position:relative}
 .phead .status::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;box-shadow:0 0 8px currentColor}
 .phead .status.win{color:var(--gold)}
 .phead .status.dev{color:var(--arc)}
+.phead .status.live::before{animation:blink 1.6s infinite}
+.stage.tall{aspect-ratio:3/4}
+.trk{margin-top:1.6rem;color:var(--mute);font-size:.58rem}
+.track{list-style:none;margin:.6rem 0 0;padding:0;display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.track li{position:relative;background:rgba(6,10,18,.8);padding:.65rem .55rem;font-family:var(--mono);font-size:.54rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);line-height:1.4}
+.track b{display:block;font-family:var(--display);font-size:1.1rem;font-weight:600;line-height:1.1;margin-bottom:.2rem;color:var(--mute)}
+.track li.on{color:var(--text);background:rgba(61,255,154,.07)}
+.track li.on b{color:var(--green)}
+.track li.on::after{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:var(--green);box-shadow:0 0 8px var(--green)}
+@media(max-width:560px){.track{grid-template-columns:repeat(3,1fr)}}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:1.3rem}
+.split>div{background:rgba(6,10,18,.8);padding:.9rem 1rem}
+.split b{display:block;font-family:var(--mono);font-size:.58rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--arc);margin-bottom:.35rem}
+.split .me b{color:var(--gold)}
+.split span{display:block;font-size:.9rem;line-height:1.5;color:var(--text-2)}
+@media(max-width:560px){.split{grid-template-columns:1fr}}
 .pbody{padding:clamp(1.5rem,3vw,2.5rem)}
 .pside{padding:clamp(1.5rem,3vw,2.5rem);border-left:1px solid var(--line);display:flex;flex-direction:column;justify-content:center;gap:.8rem;background:rgba(4,7,13,.4);min-width:0}
 @media(max-width:900px){.pside{border-left:0;border-top:1px solid var(--line)}}
@@ -432,9 +449,10 @@ footer span{color:var(--arc)}
       <li><a href="#work" class="lnk" data-i="01">Work</a></li>
       <li><a href="#research" class="lnk" data-i="02">Research</a></li>
       <li><a href="#awards" class="lnk" data-i="03">Awards</a></li>
-      <li><a href="#projects" class="lnk" data-i="04">Projects</a></li>
-      <li><a href="#skills" class="lnk" data-i="05">Skills</a></li>
-      <li><a href="#contact" class="lnk" data-i="06">Contact</a></li>
+      <li><a href="#now" class="lnk" data-i="04">Now</a></li>
+      <li><a href="#projects" class="lnk" data-i="05">Projects</a></li>
+      <li><a href="#skills" class="lnk" data-i="06">Skills</a></li>
+      <li><a href="#contact" class="lnk" data-i="07">Contact</a></li>
     </ul>
     <div class="sys" aria-live="off"><i aria-hidden="true"></i>Online · Arlington <time id="clock">--:--:--</time></div>
     <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="menu">Menu</button>
@@ -695,9 +713,96 @@ footer span{color:var(--arc)}
   </div>
 </section>
 
-<section id="projects" class="wrap">
+<section id="now" class="wrap">
   <div class="sec-head rv">
     <div class="idx">04</div>
+    <div class="mono">// Working on</div>
+    <h2>On the bench right now</h2>
+    <div class="rule"></div>
+  </div>
+
+  <div class="projects">
+    <article class="project panel rv">
+      <div class="phead"><span class="pid">WIP-01</span><span>17 DOF Humanoid</span><span class="status live">Phase 0 · Hardware bring up</span></div>
+      <div class="pbody">
+        <span class="kicker mono">Independent build · Legged robotics · Since Fall 2026</span>
+        <h3>17 DOF Bipedal Humanoid</h3>
+        <p>A bipedal humanoid built from 17 hobby servos, with the kinematics, gait engine, and balance control written from scratch. The goal is a robot that walks continuously, turns, and recovers from a push, documented end to end.</p>
+        <p>Each leg has six joints. The three hip axes meet at one point and the two ankle axes meet at another, so I derived the inverse kinematics in <b>closed form, with no kinematics libraries</b>. Next, every solution gets a round trip check through forward kinematics across thousands of random poses, which is also what pins down the sign conventions once the servos are mounted.</p>
+        <p>The design splits the work across two brains. A Raspberry Pi 4 handles kinematics and gait. An STM32F407 will run the real time layer: PWM for all 17 servos straight from its hardware timers instead of an I2C driver board, plus a BNO085 IMU and four force sensors per foot for the balance loop.</p>
+        <div class="specs">
+          <div><b>17</b><span>Servos</span></div>
+          <div><b>12</b><span>Leg joints</span></div>
+          <div><b>2</b><span>Controllers</span></div>
+          <div><b>6.0 V</b><span>Servo rail</span></div>
+        </div>
+        <div class="trk mono">Roadmap · now in phase 0</div>
+        <ol class="track">
+          <li class="on"><b>0</b>Bring up</li>
+          <li><b>1</b>Kinematics</li>
+          <li><b>2</b>Gait</li>
+          <li><b>3</b>Balance</li>
+          <li><b>4</b>Vision</li>
+          <li><b>5</b>RL policy</li>
+        </ol>
+        <p class="note">Where it stands: the bench supply is verified at 6.05 V, the first servo moves from code, and the IK is derived on paper. First lesson learned: a servo sat idle at 0.007 A until the Pi and the supply shared a ground.</p>
+        <div class="tags"><span>Raspberry Pi 4</span><span>STM32F407</span><span>Embedded C</span><span>Python</span><span>Inverse kinematics</span><span>BNO085 IMU</span><span>MG996R + MG995</span></div>
+      </div>
+
+      <div class="pside">
+        <div class="viewer">
+          <div class="stage tall">
+            <img src="humanoid-brackets.jpg" alt="Photos of the humanoid build in progress">
+          </div>
+          <p class="vcap">Servo brackets sorted by type, ready for the legs. <a class="vfull" href="humanoid-brackets.jpg" target="_blank" rel="noopener">Full size</a></p>
+          <div class="thumbs">
+            <button class="thumb is-on" data-src="humanoid-brackets.jpg" data-cap="Servo brackets sorted by type, ready for the legs." aria-label="Servo brackets"><img src="humanoid-brackets.jpg" alt="" loading="lazy"></button>
+            <button class="thumb" data-src="humanoid-servos.jpg" data-cap="Servos, horns, and hardware unpacked for assembly." aria-label="Servos and hardware"><img src="humanoid-servos.jpg" alt="" loading="lazy"></button>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="project panel rv">
+      <div class="phead"><span class="pid">WIP-02</span><span>Roof Inspection Drone</span><span class="status live">Senior design · Fall 2026</span></div>
+      <div class="pbody">
+        <span class="kicker mono">Senior design · Sponsored by State Farm · EE + CS team</span>
+        <h3>Roof Damage Detection Drone</h3>
+        <p>My senior design project, sponsored by State Farm: an AI model that finds roof damage in aerial images, and an autonomous drone to fly the inspection. I'm on the EE side, which designs, builds, and tests the drone from scratch.</p>
+        <div class="split">
+          <div class="me"><b>EE · my side</b><span>Design, build, and test an autonomous drone from scratch.</span></div>
+          <div><b>CS</b><span>Improve the existing damage model's accuracy, robustness, and evaluation framework.</span></div>
+        </div>
+        <p>This semester's target is <b>at least 85% accuracy on a held out test set</b>. The drone budget is about $3,000, expandable at the professor's discretion. The team already owns two 4S and two 6S batteries, and everything else is bought new.</p>
+        <div class="specs">
+          <div><b>85%</b><span>Min test accuracy</span></div>
+          <div><b>$3K</b><span>Drone budget</span></div>
+          <div><b>4S + 6S</b><span>Batteries on hand</span></div>
+          <div><b>EE + CS</b><span>Team split</span></div>
+        </div>
+        <p class="note">UTA sponsors: David Wetz and Alex Johnston.</p>
+        <div class="tags"><span>Autonomous flight</span><span>Multirotor design</span><span>Power systems</span><span>Computer vision</span><span>Senior design</span></div>
+      </div>
+
+      <div class="pside">
+        <div class="viewer">
+          <div class="stage tall">
+            <img src="drone-frame.jpg" alt="Photos of the inspection drone during assembly">
+          </div>
+          <p class="vcap">The airframe on the lab bench with all four motors mounted. <a class="vfull" href="drone-frame.jpg" target="_blank" rel="noopener">Full size</a></p>
+          <div class="thumbs">
+            <button class="thumb is-on" data-src="drone-frame.jpg" data-cap="The airframe on the lab bench with all four motors mounted." aria-label="Assembled airframe"><img src="drone-frame.jpg" alt="" loading="lazy"></button>
+            <button class="thumb" data-src="drone-top.jpg" data-cap="Top down during assembly, with a level on the center plate." aria-label="Top view during assembly"><img src="drone-top.jpg" alt="" loading="lazy"></button>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section id="projects" class="wrap">
+  <div class="sec-head rv">
+    <div class="idx">05</div>
     <div class="mono">// Projects</div>
     <h2>Things I've designed and built</h2>
     <div class="rule"></div>
@@ -1027,7 +1132,7 @@ footer span{color:var(--arc)}
 
 <section id="skills" class="wrap">
   <div class="sec-head rv">
-    <div class="idx">05</div>
+    <div class="idx">06</div>
     <div class="mono">// Toolkit</div>
     <h2>What I work with</h2>
     <div class="rule"></div>
@@ -1060,7 +1165,7 @@ footer span{color:var(--arc)}
 
 <section id="contact" class="contact">
   <div class="wrap">
-    <div class="eyebrow rv">06 // Open to internships &amp; research collaborations</div>
+    <div class="eyebrow rv">07 // Open to internships &amp; research collaborations</div>
     <h2 class="rv">Let's build something <em>that moves.</em></h2>
     <div class="links rv">
       <a href="mailto:er.suyognp@gmail.com"><span>Email</span><b>er.suyognp@gmail.com</b></a>
