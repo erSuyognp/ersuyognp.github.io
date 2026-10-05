@@ -994,7 +994,82 @@ footer span{color:var(--arc)}
     </article>
 
     <article class="project panel rv">
-      <div class="phead"><span class="pid">PRJ-05</span><span>FPGA Options Strategy Engine</span><span class="status dev">188 MHz Fmax · CI verified</span></div>
+      <div class="phead"><span class="pid">PRJ-05</span><span>Jirani</span><span class="status dev">Hack-Nation · Solo build</span></div>
+      <div class="pbody">
+        <span class="kicker mono">Hackathon · Edge ML + full stack · World Bank Youth Summit challenge</span>
+        <h3>Jirani</h3>
+        <p>An offline leaf check for smallholder coffee farmers who don't own a smartphone, built solo for Hack-Nation's 7th Global AI Hackathon (Challenge 04, Small AI for Development). A farmer lays three leaves on a printed card, the family smartphone checks them with no internet, and the result goes to her basic phone as one SMS with Kiswahili audio. "Jirani" means neighbor in Kiswahili.</p>
+        <p>The model is a 1.04 MB MobileNetV3 running in the browser through onnxruntime-web, and it is built to <b>refuse</b>. It answers only when its calibrated confidence clears a threshold and at least two of the three leaves agree. Otherwise it says "Not sure. Ask a person. Do not spray." On the test set, that rule answered three checks in four, and every answer was right.</p>
+        <p>A FastAPI cooperative server collects reports whenever there is signal. When three or more plots within 2 km report the same problem within 14 days, it drafts a neighbor alert, and nothing goes out until an extension officer approves it. It also ranks officer visits and answers photo requests. Every sentence the farmer sees comes from a fixed answer list, with no LLM calls at runtime.</p>
+        <p class="note">Honest limits, measured: quantizing the activations collapsed accuracy to 9 to 28%, so only the weights are int8. On a synthetic stress set with blur, low light, and clutter, accuracy falls to 77.2%, and cluttered backgrounds are the weak spot. Each leaf takes 82 to 204 ms on a Samsung Galaxy A14.</p>
+        <div class="specs">
+          <div><b>1.04 MB</b><span>Model size</span></div>
+          <div><b>90.1%</b><span>Test accuracy</span></div>
+          <div><b>100%</b><span>Right when it answers</span></div>
+          <div><b>0</b><span>LLM calls at runtime</span></div>
+        </div>
+        <div class="tags"><span>PyTorch</span><span>MobileNetV3</span><span>ONNX Runtime Web</span><span>React</span><span>TypeScript</span><span>PWA</span><span>FastAPI</span><span>Android</span></div>
+        <a class="plink" href="https://jirani-eosin.vercel.app" target="_blank" rel="noopener">Try the farmer app</a>
+        <a class="plink" href="https://jirani-coop.onrender.com/simulation" target="_blank" rel="noopener">Watch the simulation</a>
+        <a class="plink" href="https://github.com/erSuyognp/Jirani" target="_blank" rel="noopener">View on GitHub</a>
+      </div>
+
+      <div class="pside">
+        <div class="viewer">
+          <div class="stage" style="aspect-ratio:1400/755">
+            <img src="jirani-refusal.jpg" alt="Screenshots of the Jirani farmer app and the cooperative dashboard">
+          </div>
+          <p class="vcap">A refusal on the phone: not sure, so ask a person. Beside it, the officer's ranked visit queue. <a class="vfull" href="jirani-refusal.jpg" target="_blank" rel="noopener">Full size</a></p>
+          <div class="thumbs">
+            <button class="thumb is-on" data-src="jirani-refusal.jpg" data-cap="A refusal on the phone: not sure, so ask a person. Beside it, the officer's ranked visit queue." aria-label="Refusal and visit queue"><img src="jirani-refusal.jpg" alt="" loading="lazy"></button>
+            <button class="thumb" data-src="jirani-result.jpg" data-cap="A result card: send the three leaf photos to the officer, then pass the result to the basic phone by SMS." aria-label="Result card"><img src="jirani-result.jpg" alt="" loading="lazy"></button>
+            <button class="thumb" data-src="jirani-alert.jpg" data-cap="Syncing from the phone, and a neighbor alert the officer approved. SMS sending is mocked in the demo." aria-label="Approved neighbor alert"><img src="jirani-alert.jpg" alt="" loading="lazy"></button>
+            <button class="thumb" data-src="jirani-capture.jpg" data-cap="The capture card guide: one leaf per box, lower side up. Map plots in the demo are synthetic." aria-label="Capture card guide"><img src="jirani-capture.jpg" alt="" loading="lazy"></button>
+          </div>
+        </div>
+        <div class="pfig">
+          <svg viewBox="0 0 300 382" role="img" aria-label="Jirani pipeline: three leaves on a printed card, a quality gate, the on-device model, a refusal gate, an SMS to the basic phone, and, once there is signal, a cooperative alert that an officer must approve.">
+            <defs>
+              <marker id="arJr" viewBox="0 0 8 8" refX="4" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+                <path d="M0 0 L8 4 L0 8 z" fill="#3FE0FF" fill-opacity=".7"/>
+              </marker>
+            </defs>
+            <text x="6" y="12" font-family="JetBrains Mono, monospace" font-size="9" fill="#3FE0FF" letter-spacing="1.3">ON THE PHONE · OFFLINE</text>
+            <g font-family="JetBrains Mono, monospace" font-size="10.5" fill="#E4ECF6">
+              <rect x="6" y="20" width="288" height="40" rx="1" fill="#0B1424" stroke="#3FE0FF" stroke-opacity=".5"/>
+              <text x="18" y="38">3 leaves on a printed card</text>
+              <text x="18" y="53" font-size="8.5" fill="#7F90A9">photographed with the family phone</text>
+              <line x1="150" y1="60" x2="150" y2="74" stroke="#3FE0FF" stroke-opacity=".6" marker-end="url(#arJr)"/>
+              <rect x="6" y="76" width="288" height="40" rx="1" fill="#0B1424" stroke="#3FE0FF" stroke-opacity=".5"/>
+              <text x="18" y="94">Quality gate, then crop</text>
+              <text x="18" y="109" font-size="8.5" fill="#7F90A9">blur, exposure, leaf present</text>
+              <line x1="150" y1="116" x2="150" y2="130" stroke="#3FE0FF" stroke-opacity=".6" marker-end="url(#arJr)"/>
+              <rect x="6" y="132" width="288" height="40" rx="1" fill="#171610" stroke="#F5B942" stroke-width="1.5"/>
+              <text x="18" y="150" fill="#F5B942">MobileNetV3 · int8 · WASM</text>
+              <text x="18" y="165" font-size="8.5" fill="#7F90A9">1.04 MB, runs in the browser</text>
+              <line x1="150" y1="172" x2="150" y2="186" stroke="#3FE0FF" stroke-opacity=".6" marker-end="url(#arJr)"/>
+              <rect x="6" y="188" width="288" height="54" rx="1" fill="#0B1424" stroke="#3FE0FF" stroke-opacity=".5"/>
+              <text x="18" y="206">Refusal gate</text>
+              <text x="18" y="221" font-size="8.5" fill="#7F90A9">answers only if sure and 2 of 3 agree</text>
+              <text x="18" y="235" font-size="8.5" fill="#FF3D4A">else: Not sure. Ask a person.</text>
+              <line x1="150" y1="242" x2="150" y2="256" stroke="#3FE0FF" stroke-opacity=".6" marker-end="url(#arJr)"/>
+              <rect x="6" y="258" width="288" height="40" rx="1" fill="#0B1424" stroke="#3FE0FF" stroke-opacity=".5"/>
+              <text x="18" y="276">SMS to the basic phone</text>
+              <text x="18" y="291" font-size="8.5" fill="#7F90A9">one segment, plus Kiswahili audio</text>
+              <line x1="150" y1="298" x2="150" y2="326" stroke="#3FE0FF" stroke-opacity=".6" stroke-dasharray="3 3" marker-end="url(#arJr)"/>
+              <text x="6" y="316" font-size="9" fill="#3FE0FF" letter-spacing="1.3">WHEN THERE IS SIGNAL</text>
+              <rect x="6" y="328" width="288" height="40" rx="1" fill="#0B1424" stroke="#3FE0FF" stroke-opacity=".5"/>
+              <text x="18" y="346">Coop server · officer approves</text>
+              <text x="18" y="361" font-size="8.5" fill="#7F90A9">3+ plots, 2 km, 14 days: draft alert</text>
+            </g>
+          </svg>
+          <div class="cap">Diagnose offline. Warn neighbors only after a person approves.</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="project panel rv">
+      <div class="phead"><span class="pid">PRJ-06</span><span>FPGA Options Strategy Engine</span><span class="status dev">188 MHz Fmax · CI verified</span></div>
       <div class="pbody">
         <span class="kicker mono">Digital design · SystemVerilog / Artix-7</span>
         <h3>FPGA Options Strategy Engine</h3>
@@ -1049,7 +1124,7 @@ footer span{color:var(--arc)}
     </article>
 
     <article class="project panel rv">
-      <div class="phead"><span class="pid">PRJ-06</span><span>Spark</span><span class="status">Live · Cloudflare Workers</span></div>
+      <div class="phead"><span class="pid">PRJ-07</span><span>Spark</span><span class="status">Live · Cloudflare Workers</span></div>
       <div class="pbody">
         <span class="kicker mono">Full stack · Cloudflare Workers</span>
         <h3>Spark</h3>
@@ -1099,7 +1174,7 @@ footer span{color:var(--arc)}
     </article>
 
     <article class="project panel rv">
-      <div class="phead"><span class="pid">PRJ-07</span><span>Biased Coin Desk</span><span class="status">Live simulator</span></div>
+      <div class="phead"><span class="pid">PRJ-08</span><span>Biased Coin Desk</span><span class="status">Live simulator</span></div>
       <div class="pbody">
         <span class="kicker mono">Interactive simulation · Web</span>
         <h3>Biased Coin Desk</h3>
